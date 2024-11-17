@@ -3,6 +3,11 @@ Tic Tac Toe game with React
 
 Following guide from https://react.dev/learn/tutorial-tic-tac-toe
 
+## React conventions
+props - onSomething
+
+## Taking Turns
+
 
 
 # Getting Started with Create React App
