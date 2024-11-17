@@ -14,6 +14,11 @@ console.log(variable === null);
 
 ## Taking Turns
 
+## TODO: 
+~~1. End game after winner decided~~
+2. reset button
+3. return button to store previous states
+
 
 
 # Getting Started with Create React App
