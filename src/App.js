@@ -2,11 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 
 
-// HELPER FUNCTIONS (PROPS)
+// SQUARE COMPONENT (Function / Reusable code)
+// Props - parameters (inputs to functions)
 function Square({input, onSquareClick}) {
-  // console.log("INPUT: " + input);
-  // console.log("ONSQUARECLICK: " + onSquareClick);
-
   return (
     <button className="square" onClick={onSquareClick}>
         {input}
@@ -14,20 +12,16 @@ function Square({input, onSquareClick}) {
   )
 }
 
-function setSquares() {
-
-}
-
-// MAIN FUNCTION - Board
+// MAIN FUNCTION - Board (Parent Component)
 export default function Board() {
-  // Initialise empty array for board elements
+  // Initialise squares array + provide function to update squares array (setSquares)
   const [squares, setSquares] = useState(Array(9).fill(null));
   console.log("SQUARES ARRAY: " + squares);
   
   function handleClick(index) {
-    const nextSquares = squares.slice();
-    nextSquares[index] = "X";
-    setSquares(nextSquares);
+    const nextSquares = squares.slice(); // define copy of array
+    nextSquares[index] = "X"; // update existing 
+    setSquares(nextSquares); // update existing squares array with new array (nextSquares)
   }
 
 
