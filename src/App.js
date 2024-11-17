@@ -15,12 +15,18 @@ function Square({input, onSquareClick}) {
 // MAIN FUNCTION - Board (Parent Component)
 export default function Board() {
   const [isX, setX] = useState(true);
-  console.log("IS IT X TURN? - " + isX)
 
   // Initialise squares array + provide function to update squares array (setSquares)
   const [squares, setSquares] = useState(Array(9).fill(null));
-  console.log("SQUARES ARRAY: " + squares);
   
+  let status;
+
+  if (calculateWinner(squares)) {
+    status = "Winner: " + calculateWinner(squares);
+  } else {
+    status = "Next Player: " + (isX ? "X" : "O");
+  }
+
   function handleClick(index) {
     if (squares[index]) {
       return // end function prematurely if cell is NOT null
@@ -40,6 +46,7 @@ export default function Board() {
 
   return (
     <>
+      <div className="status">{status}</div>
       {/* <button className="square" onClick={onSquareClick}>{input}</button> */}
       {/* onSquareClick - temp name to link Board function to onClick js keyword */}
       {/* handleClick passed to Square as a prop */}
@@ -60,4 +67,28 @@ export default function Board() {
       </div>
     </>
   );
+}
+
+function calculateWinner(squares) {
+  // All possible winning combinations in TTT
+  const winningLines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+  console.log("SQUARES: " + squares);
+  for (let i = 0; i < winningLines.length; i++) {
+    const [a, b, c] = winningLines[i]; // setting winning indexes of a, b, c
+    console.log("VALUES a,b,c: " + a + ", " + b + ", " + c);
+    // checking if any combination has the same value
+    if (squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a]; // returning value of winning char
+    }
+  }
+  return null; // if no combination contains same value, no winner
 }
