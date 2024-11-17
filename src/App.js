@@ -28,7 +28,7 @@ export default function Board() {
   }
 
   function handleClick(index) {
-    if (squares[index]) {
+    if (squares[index] || calculateWinner(squares)) {
       return // end function prematurely if cell is NOT null
     }
 
