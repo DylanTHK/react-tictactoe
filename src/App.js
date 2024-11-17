@@ -14,13 +14,26 @@ function Square({input, onSquareClick}) {
 
 // MAIN FUNCTION - Board (Parent Component)
 export default function Board() {
+  const [isX, setX] = useState(true);
+  console.log("IS IT X TURN? - " + isX)
+
   // Initialise squares array + provide function to update squares array (setSquares)
   const [squares, setSquares] = useState(Array(9).fill(null));
   console.log("SQUARES ARRAY: " + squares);
   
   function handleClick(index) {
+    if (squares[index]) {
+      return // end function prematurely if cell is NOT null
+    }
+
     const nextSquares = squares.slice(); // define copy of array
-    nextSquares[index] = "X"; // update existing 
+
+    if (isX === true) {
+      nextSquares[index] = "X"; // update cell - X
+    } else {
+      nextSquares[index] = "O"; // update cell - O
+    }
+    setX(!isX); // toggle isX boolean
     setSquares(nextSquares); // update existing squares array with new array (nextSquares)
   }
 
