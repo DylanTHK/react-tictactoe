@@ -6,6 +6,12 @@ Following guide from https://react.dev/learn/tutorial-tic-tac-toe
 ## React conventions
 props - onSomething
 
+
+## Checking for null / NaN
+console.log(Number.isNaN(variable));
+console.log(variable === null);
+
+
 ## Taking Turns
 
 
