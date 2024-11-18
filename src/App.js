@@ -2,21 +2,40 @@ import React from 'react';
 import { useState } from 'react';
 
 // ********************************************************************
-// ************* MAIN FUNCTION - Board (Parent Component) *************
+// ************* MAIN COMPONENT - GAME *************
 // ********************************************************************
-export default function Board() {
-  const [isX, setX] = useState(true);
+export default function Game() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
 
-  // Initialise squares array + provide function to update squares array (setSquares)
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  
-  let status;
+  const currentSquares = history[history.length - 1];
 
-  if (calculateWinner(squares)) {
-    status = "Winner: " + calculateWinner(squares);
-  } else {
-    status = "Next Player: " + (isX ? "X" : "O");
+  // TO HANDLE GAMEPLAY (UPDATE BOARD)
+  function handlePlay(nextSquares) {
+    // 1. creates shallow copy, adds next set to array
+    setHistory([...history, nextSquares]);
+    setXIsNext(!xIsNext);
   }
+  
+  return (
+    <div className="game">
+      <div className="game-board">
+        {/* Rerender Board component with props */}
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay}/>
+      </div>
+      <div className="game-info">
+        <ol>
+          {/* TODO= */}
+        </ol>
+      </div>
+    </div>
+  )
+}
+
+// ***************************************************
+// ************* CHILD COMPONENT - BOARD *************
+// ***************************************************
+function Board({xIsNext, squares, onPlay}) {
 
   function handleClick(index) {
     if (squares[index] || calculateWinner(squares)) {
@@ -25,18 +44,27 @@ export default function Board() {
 
     const nextSquares = squares.slice(); // define copy of array
 
-    if (isX === true) {
+    if (xIsNext === true) {
       nextSquares[index] = "X"; // update cell - X
     } else {
       nextSquares[index] = "O"; // update cell - O
     }
-    setX(!isX); // toggle isX boolean
-    setSquares(nextSquares); // update existing squares array with new array (nextSquares)
+
+    onPlay(nextSquares); // update existing squares array with new array (nextSquares)
   }
 
-  function reset() {
-    setSquares(Array(9).fill(null));
+  const winner = calculateWinner(squares);
+  let status;
+  if (winner) {
+    status = "Winner: " + winner;
+  } else {
+    status = "Next Player: " + (xIsNext ? "X" : "O");
   }
+
+  // function to help reset board
+  // function reset() {
+  //   setSquares(Array(9).fill(null));
+  // }
 
   return (
     <>
@@ -59,15 +87,14 @@ export default function Board() {
         <Square input={squares[7]} onSquareClick={() => handleClick(7)}/>
         <Square input={squares[8]} onSquareClick={() => handleClick(8)}/>
       </div>
-      <ResetButton onResetClick={() => reset()}/>
+      {/* <ResetButton onResetClick={() => reset()}/> */}
     </>
   );
 }
 
-// ********************************************************************
-// *********** SQUARE COMPONENT (Function / Reusable code) ************
-// *********** Props - parameters (inputs to functions) ***************
-// ********************************************************************
+// ****************************************************
+// ************* CHILD COMPONENT - SQUARE *************
+// ****************************************************
 function Square({input, onSquareClick}) {
   return (
     <button className="square" onClick={onSquareClick}>
