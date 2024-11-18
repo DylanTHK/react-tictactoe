@@ -1,18 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 
-
-// SQUARE COMPONENT (Function / Reusable code)
-// Props - parameters (inputs to functions)
-function Square({input, onSquareClick}) {
-  return (
-    <button className="square" onClick={onSquareClick}>
-        {input}
-      </button>
-  )
-}
-
-// MAIN FUNCTION - Board (Parent Component)
+// ********************************************************************
+// ************* MAIN FUNCTION - Board (Parent Component) *************
+// ********************************************************************
 export default function Board() {
   const [isX, setX] = useState(true);
 
@@ -43,7 +34,6 @@ export default function Board() {
     setSquares(nextSquares); // update existing squares array with new array (nextSquares)
   }
 
-
   return (
     <>
       <div className="status">{status}</div>
@@ -69,6 +59,21 @@ export default function Board() {
   );
 }
 
+// ********************************************************************
+// *********** SQUARE COMPONENT (Function / Reusable code) ************
+// *********** Props - parameters (inputs to functions) ***************
+// ********************************************************************
+function Square({input, onSquareClick}) {
+  return (
+    <button className="square" onClick={onSquareClick}>
+        {input}
+      </button>
+  )
+}
+
+// ********************************************************************
+// ************* calculateWinner Component *************
+// ********************************************************************
 function calculateWinner(squares) {
   // All possible winning combinations in TTT
   const winningLines = [
