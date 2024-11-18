@@ -3,8 +3,10 @@ Tic Tac Toe game with React
 
 Following guide from https://react.dev/learn/tutorial-tic-tac-toe
 
-## React conventions
-props - onSomething
+## React conventions 
+Props 
+    - parameters (inputs to functions)
+    - Naming conventions: onSomething
 
 
 ## Checking for null / NaN
