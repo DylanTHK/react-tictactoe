@@ -34,6 +34,10 @@ export default function Board() {
     setSquares(nextSquares); // update existing squares array with new array (nextSquares)
   }
 
+  function reset() {
+    setSquares(Array(9).fill(null));
+  }
+
   return (
     <>
       <div className="status">{status}</div>
@@ -55,6 +59,7 @@ export default function Board() {
         <Square input={squares[7]} onSquareClick={() => handleClick(7)}/>
         <Square input={squares[8]} onSquareClick={() => handleClick(8)}/>
       </div>
+      <ResetButton onResetClick={() => reset()}/>
     </>
   );
 }
@@ -70,6 +75,16 @@ function Square({input, onSquareClick}) {
       </button>
   )
 }
+
+// COMPONENT FOR RESET BUTTON
+function ResetButton({onResetClick}) {
+  return (
+    <button className="reset-button" onClick={onResetClick}>
+      Reset 
+    </button>
+  );
+}
+
 
 // ********************************************************************
 // ************* calculateWinner Component *************
