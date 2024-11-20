@@ -19,7 +19,7 @@ console.log(variable === null);
 ## TODO: 
 ~~1. End game after winner decided~~
 ~~2. reset button~~
-3. return button to store previous states
+~~3. return button to store previous states~~
 
 
 ## Known Bugs
