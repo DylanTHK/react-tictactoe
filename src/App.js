@@ -5,17 +5,40 @@ import { useState } from 'react';
 // ************* MAIN COMPONENT - GAME *************
 // ********************************************************************
 export default function Game() {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [history, setHistory] = useState([Array(9).fill(null)]);
-
-  const currentSquares = history[history.length - 1];
+  const [history, setHistory] = useState([Array(9).fill(null)]); // initialise 9 arrays of 9 cell arrays
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove];
 
   // TO HANDLE GAMEPLAY (UPDATE BOARD)
   function handlePlay(nextSquares) {
-    // 1. creates shallow copy, adds next set to array
-    setHistory([...history, nextSquares]);
-    setXIsNext(!xIsNext);
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
   }
+
+  function jumpTo(nextMove) {
+    setCurrentMove(nextMove);
+  }
+
+  // moves 
+  const moves = history.map((squares, move) => {
+    let description;
+
+    if (move > 0) {
+      description = "Go to move #" + move;
+    } else {
+      description = "Go to game start";
+    }
+
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>
+          {description}
+        </button>
+      </li>
+    )
+  })
   
   return (
     <div className="game">
@@ -25,7 +48,7 @@ export default function Game() {
       </div>
       <div className="game-info">
         <ol>
-          {/* TODO= */}
+          {moves}
         </ol>
       </div>
     </div>
@@ -50,7 +73,7 @@ function Board({xIsNext, squares, onPlay}) {
       nextSquares[index] = "O"; // update cell - O
     }
 
-    onPlay(nextSquares); // update existing squares array with new array (nextSquares)
+    onPlay(nextSquares); // send updated cells to Game() #TODO: continue
   }
 
   const winner = calculateWinner(squares);
@@ -104,13 +127,13 @@ function Square({input, onSquareClick}) {
 }
 
 // COMPONENT FOR RESET BUTTON
-function ResetButton({onResetClick}) {
-  return (
-    <button className="reset-button" onClick={onResetClick}>
-      Reset 
-    </button>
-  );
-}
+// function ResetButton({onResetClick}) {
+//   return (
+//     <button className="reset-button" onClick={onResetClick}>
+//       Reset 
+//     </button>
+//   );
+// }
 
 
 // ********************************************************************
